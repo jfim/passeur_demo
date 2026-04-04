@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:17
+    restart: unless-stopped
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: passeur
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-passeur}
+      POSTGRES_DB: passeur_demo
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U passeur"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  passeur_demo:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "${PORT:-4000}:4000"
+    volumes:
+      - vault:/data/vault
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: ecto://passeur:${POSTGRES_PASSWORD:-passeur}@postgres/passeur_demo
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:?Set SECRET_KEY_BASE}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH:?Set ADMIN_PASSWORD_HASH}
+      SERVER_URL: ${SERVER_URL:?Set SERVER_URL}
+      VAULT_PATH: /data/vault
+      PORT: "4000"
+
+volumes:
+  pgdata:
+  vault:
