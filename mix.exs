@@ -20,8 +20,8 @@ defmodule PasseurDemo.MixProject do
 
   defp deps do
     [
-      {:passeur, path: "../passeur"},
-      {:passeur_files, path: "../passeur_files"}
+      {:passeur, git: "https://github.com/jfim/passeur.git"},
+      {:passeur_files, git: "https://github.com/jfim/passeur_files.git"}
     ]
   end
 end
