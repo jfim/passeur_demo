@@ -7,6 +7,12 @@ Demo MCP server built with [Passeur](https://github.com/jfim/passeur). Use this 
 - **greet** tool — sends a name to a Greeter GenServer actor, responds with a greeting
 - **File tools** (via [passeur_files](https://github.com/jfim/passeur_files)) — list, read, write, edit, and delete files in a configurable directory
 
+## Deployment requirements
+
+- Postgres for OAuth DCR and token storage.
+- External SSL termination through nginx, Caddy, Cloudflare Tunnel, etc.
+- Docker if you want to deploy this as a container
+
 ## Quick Start with Docker
 
 ```bash
