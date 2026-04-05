@@ -30,9 +30,12 @@ WORKDIR /app
 
 COPY --from=build /app/_build/prod/rel/passeur_demo ./
 
+COPY entrypoint.sh ./
+RUN chmod +x entrypoint.sh
+
 RUN mkdir -p /data/vault
 
 ENV PORT=4000
 EXPOSE 4000
 
-CMD ["bin/passeur_demo", "start"]
+ENTRYPOINT ["./entrypoint.sh"]
