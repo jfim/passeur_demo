@@ -18,9 +18,9 @@ RUN mix compile
 RUN mix release
 
 # --- Runtime ---
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 
-RUN apt-get update && apt-get install -y libstdc++6 openssl libncurses5 locales curl \
+RUN apt-get update && apt-get install -y libstdc++6 openssl libncurses6 locales curl \
     && rm -rf /var/lib/apt/lists/* \
     && sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
 
