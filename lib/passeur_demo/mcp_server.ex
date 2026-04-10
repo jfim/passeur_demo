@@ -1,5 +1,5 @@
 defmodule PasseurDemo.MCPServer do
-  use Hermes.Server,
+  use Anubis.Server,
     name: "PasseurDemo",
     version: "0.1.0",
     capabilities: [:tools]
