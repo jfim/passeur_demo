@@ -1,21 +1,37 @@
+# syntax=docker/dockerfile:1.7
 FROM elixir:1.19-otp-28-slim AS build
 
-RUN apt-get update && apt-get install -y git make gcc libc6-dev && rm -rf /var/lib/apt/lists/*
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && apt-get install -y git make gcc libc6-dev
 
 WORKDIR /app
 
-ENV MIX_ENV=prod
+ENV MIX_ENV=prod \
+    MIX_HOME=/root/.mix \
+    HEX_HOME=/root/.hex
+
+RUN --mount=type=cache,target=/root/.hex \
+    --mount=type=cache,target=/root/.mix \
+    mix local.hex --force && mix local.rebar --force
 
 COPY mix.exs mix.lock ./
-RUN mix local.hex --force && mix local.rebar --force
-RUN mix deps.get --only prod
-RUN mix deps.compile
+RUN --mount=type=cache,target=/root/.hex \
+    --mount=type=cache,target=/root/.mix \
+    mix deps.get --only prod
+RUN --mount=type=cache,target=/root/.hex \
+    --mount=type=cache,target=/root/.mix \
+    mix deps.compile
 
 COPY config/config.exs config/prod.exs config/runtime.exs config/
 COPY lib lib
 
-RUN mix compile
-RUN mix release
+RUN --mount=type=cache,target=/root/.hex \
+    --mount=type=cache,target=/root/.mix \
+    mix compile
+RUN --mount=type=cache,target=/root/.hex \
+    --mount=type=cache,target=/root/.mix \
+    mix release
 
 # --- Runtime ---
 FROM debian:trixie-slim
