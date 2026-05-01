@@ -22,3 +22,6 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 passeur_hello-*.tar
 
+.idea
+passeur.log
+passeur_demo.iml
