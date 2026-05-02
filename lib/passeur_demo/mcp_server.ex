@@ -10,6 +10,7 @@ defmodule PasseurDemo.MCPServer do
   component PasseurFiles.Tools.WriteFile
   component PasseurFiles.Tools.EditFile
   component PasseurFiles.Tools.DeleteFile
+  component PasseurFiles.Tools.SearchFiles
 
   @impl true
   def init(_client_info, frame) do
