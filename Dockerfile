@@ -9,7 +9,8 @@ WORKDIR /app
 
 ENV MIX_ENV=prod \
     MIX_HOME=/root/.mix \
-    HEX_HOME=/root/.hex
+    HEX_HOME=/root/.hex \
+    MIX_OS_DEPS_COMPILE_PARTITION_COUNT=24
 
 RUN --mount=type=cache,target=/root/.hex \
     --mount=type=cache,target=/root/.mix \
