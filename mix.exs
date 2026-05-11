@@ -20,6 +20,7 @@ defmodule PasseurDemo.MixProject do
 
   defp deps do
     [
+      {:anubis_mcp, git: "https://github.com/jfim/anubis-mcp.git", branch: "non-upstreamed-fixes", override: true},
       {:passeur, git: "https://github.com/jfim/passeur.git"},
       {:passeur_files, git: "https://github.com/jfim/passeur_files.git"}
     ]
